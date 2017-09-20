@@ -1,0 +1,21 @@
+{# index.html #}
+{% extends 'base.html' %}
+
+{% load i18n static %}
+
+{% block body %}
+{{ block.super }}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 main">
+            <div class="jumbotron">
+              <h2>排程網站</h2>
+              <p>建立 cron-job 與 task 任務的網頁。</p>
+              <p><a class="btn btn-primary btn-lg" href="{% url 'rate' %}" role="button">紀錄 >></a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,27 @@
+{% extends 'radars/_base.html' %}
+{% load humanize %}
+
+{% block title %}ExchangeRate | Task Deatails {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+
+    <ul class="breadcrumb">
+        {% block bar %}{{ block.super }}
+            <li class="active"><a href="{% url 'rate' %}">RateList</a></li>
+            <li class="active">Detail</li>
+        {% endblock bar %}
+    </ul>
+
+    <h2>日誌</h2>
+    <p>
+        回傳值: <code>{{ ret }}</code>, 
+        回傳狀態: <code>{{ status }}</code>,
+        版本: <code>{{ version }}</code>
+        執行函式: <code>get_exchangerate</code>
+    </p>
+    <pre>{{ result }}</pre>
+
+    <h2>資料</h2>
+    <pre>{{ values }}</pre>
+{% endblock content %}
