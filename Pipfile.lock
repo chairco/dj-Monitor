@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "55932a9d02c63af15908d726c3332b15809e5762073fba17f7e5e5b1a69ea1f9"
+            "sha256": "6eafd8462793e401b8d3fb1af214fb3ff30c380bfdfeb8bd84c034f54d513374"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -83,6 +83,13 @@
                 "sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae"
             ],
             "version": "==3.0.4"
+        },
+        "dj-database-url": {
+            "hashes": [
+                "sha256:e16d94c382ea0564c48038fa7fe8d9c890ef1ab1a8ec4cb48e732c124b9482fd",
+                "sha256:a6832d8445ee9d788c5baa48aef8130bf61fdc442f7d9a548424d25cd85c9f08"
+            ],
+            "version": "==0.4.2"
         },
         "django": {
             "hashes": [
@@ -428,6 +435,13 @@
                 "sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae"
             ],
             "version": "==3.0.4"
+        },
+        "dj-database-url": {
+            "hashes": [
+                "sha256:e16d94c382ea0564c48038fa7fe8d9c890ef1ab1a8ec4cb48e732c124b9482fd",
+                "sha256:a6832d8445ee9d788c5baa48aef8130bf61fdc442f7d9a548424d25cd85c9f08"
+            ],
+            "version": "==0.4.2"
         },
         "django-celery-monitor": {
             "hashes": [

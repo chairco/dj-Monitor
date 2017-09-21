@@ -27,6 +27,7 @@ pandas = "*"
 lxml = "*"
 html5lib = "*"
 django-celery-monitor = "*"
+dj-database-url = "==0.4.2"
 
 
 [dev-packages]
@@ -35,6 +36,7 @@ requests = "*"
 lxml = "*"
 html5lib = "*"
 django-celery-monitor = "*"
+dj-database-url = "*"
 
 
 

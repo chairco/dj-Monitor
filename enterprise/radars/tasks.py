@@ -42,10 +42,9 @@ def get_exchangerate(url='http://rate.bot.com.tw/xrt?Lang=zh-TW'):
     lazy_logger.log_to_console(logger)
     lazy_logger.log_to_rotated_file(logger=logger,file_name=log_path)
     logger.info('logger file: {0}'.format(log_path))
-
+    
     try:
         logger.info('start connect {}'.format(url))
-        #dfs = pandas.read_html(url)
         resp = requests.get('http://rate.bot.com.tw/xrt?Lang=zh-TW')
         logger.info('connect success, get exchange')
         soup = BeautifulSoup(resp.text, 'html.parser')
@@ -55,8 +54,6 @@ def get_exchangerate(url='http://rate.bot.com.tw/xrt?Lang=zh-TW'):
             logger.info("取得: {}".format(list(row.stripped_strings)[0]))
             rateset.append(" ,".join([s for s in row.stripped_strings]))
         currency = '\n'.join(rateset)
-        #currency = dfs[0]
-        #currency = currency.ix[:, 0:5]
         logger.info('get exchange success')
     except Exception as e:
         ret = OrderedDict((('ret', -1), ('status', e), ('version', '')))

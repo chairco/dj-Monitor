@@ -45,7 +45,7 @@
     {% for task in queue_orders %}
         <tr>
             <td>{{ task.task_id }}</td>
-            <td>{{ task.NAME }}</td>
+            <td>{{ task.name }}</td>
             <td>{{ task.func }}</td>
             <td>{{ task.task.kwargs }}</td>
             <td>{{ task.task.started|naturaltime }}</td>
@@ -58,8 +58,8 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Order ID</th>
-        <th>Order Name</th>
+        <th>Task ID</th>
+        <th>Task Name</th>
         <th>Time taken</th>
         <th>Complete on</th>
     </tr>
