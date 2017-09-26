@@ -1,0 +1,28 @@
+{% extends 'radars/_base.html' %}
+{% load humanize %}
+
+{% block title %}ETL | Group Deatails {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+    <ul class="breadcrumb">
+        {% block bar %}{{ block.super }}
+            <li class="active"><a href="{% url 'etl' %}"> ETL Group</a></li>
+            <li class="active">Detail</li>
+        {% endblock bar %}
+    </ul>
+
+
+    {% for key, value in etl_groups.items %}
+        <h2> 第 {{ key }} 筆</h2>
+        <h3>stdout</h3>
+        <p>
+           回傳值: <code>{{ value.returncode }}</code> 
+           執行參數: <code>{{ value.args }}</code>
+        </p>
+        <pre>{{ value.stdout }}</pre>
+        <h2>stderr</h2>
+        <pre>{{ value.stderr }}</pre>
+        <hr>
+    {% endfor %}
+{% endblock content %}

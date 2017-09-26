@@ -93,10 +93,9 @@
         },
         "django": {
             "hashes": [
-                "sha256:89162f70a74aac62a53f975128faba6099a7ef2c9d8140a41ae9d6210bda05cd",
-                "sha256:1836878162dfdf865492bacfdff0321e4ee8f1e7d51d93192546000b54982b29"
+                "sha256:a8a695977109830cd3f1bef65bce43d78d361751a304c5cf215d876fbdcf6416"
             ],
-            "version": "==1.11.5"
+            "version": "==2.0a1"
         },
         "django-celery-monitor": {
             "hashes": [

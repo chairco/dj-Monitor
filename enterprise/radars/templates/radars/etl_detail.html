@@ -1,0 +1,24 @@
+{% extends 'radars/_base.html' %}
+{% load humanize %}
+
+{% block title %}ETL | Task Deatails {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+    <ul class="breadcrumb">
+        {% block bar %}{{ block.super }}
+            <li class="active"><a href="{% url 'etl' %}">ETL List</a></li>
+            <li class="active">Detail</li>
+        {% endblock bar %}
+    </ul>
+
+    <h2>stdout</h2>
+    <p>
+      回傳值: <code>{{ etl.returncode }}</code> 
+      執行參數: <code>{{ etl.args }}</code>
+    </p>
+    <pre>{{ etl.stdout }}</pre>
+
+    <h2>stderr</h2>
+    <pre>{{ etl.stderr }}</pre>
+{% endblock content %}

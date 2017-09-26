@@ -229,10 +229,23 @@ CACHES = {
 # Ref: https://django-q.readthedocs.org/en/latest/configure.html
 Q_CLUSTER = {
     'name': 'DjangORM',
-    'workers': 1,
+    'workers': 4,
+    'cpu_affinity': 4,
     'timeout': 1800,
     'retry': 120,
     'queue_limit': 50,
     'bulk': 10,
     'orm': 'default'
 }
+
+
+# enterprise
+R_BIN = env.str('R_BIN', default='RScript')
+
+PYDOC_LANG = env.str('PYDOC_LANG', default='zh_Hant')
+TRANSIFEX_PROJ_NAME = env.str('TRANSIFEX_PROJ_NAME', default='python-35-tw')
+TRANSIFEX_TX_BIN = env.str('TRANSIFEX_TX_BIN', default='tx')
+SPHINX_INTL_BIN = env.str('SPHINX_INTL_BIN', default='sphinx-intl')
+SPHINX_BUILD_BIN = env.str('SPHINX_INTL_BIN', default='sphinx-build')
+GIT_BIN = env.str('GIT_BIN', default='/usr/bin/git')
+
