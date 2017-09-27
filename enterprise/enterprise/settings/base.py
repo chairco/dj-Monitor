@@ -95,6 +95,9 @@ THIRD_PARTY_APPS = (
     'django_q',
     'django_crontab',
     'django_celery_monitor',
+    'haystack',
+    'elasticsearch',
+    'crispy_forms',
 )
 
 LOCAL_APPS = (
@@ -105,7 +108,7 @@ LOCAL_APPS = (
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -236,6 +239,16 @@ Q_CLUSTER = {
     'queue_limit': 50,
     'bulk': 10,
     'orm': 'default'
+}
+
+
+# HAYSTACK for Elasticsearch 2.x
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
 }
 
 

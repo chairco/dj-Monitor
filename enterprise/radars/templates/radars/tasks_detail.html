@@ -1,0 +1,23 @@
+{% extends 'radars/_base.html' %}
+{% load humanize %}
+
+{% block title %}815{% endblock %}
+
+
+{% block content %}
+    <ul class="breadcrumb">
+        {% block bar %}{{ block.super }}
+            <li class="active">Task detail</li>
+        {% endblock bar %}
+    </ul>
+    
+    <h2>stdout</h2>
+    <p>
+      回傳值: <code>{{ object.result.returncode }}</code> 
+      執行參數: <code>{{ object.result.args }}</code>
+    </p>
+    <pre>{{ object.result.stdout }}</pre>
+
+    <h2>stderr</h2>
+    <pre>{{ object.result.stderr }}</pre>
+{% endblock %}

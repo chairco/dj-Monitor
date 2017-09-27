@@ -18,7 +18,7 @@ python-dateutil = "==2.6.0"
 redis = "==2.10.5"
 selenium = "==3.0.2"
 wcwidth = "==0.1.7"
-django = "*"
+django = "==1.10.8"
 environ = "*"
 django-q = "*"
 psycopg2 = "*"
@@ -28,6 +28,10 @@ lxml = "*"
 html5lib = "*"
 django-celery-monitor = "*"
 dj-database-url = "==0.4.2"
+django-haystack = "*"
+elasticsearch = ">=2.0.0,<3.0.0"
+django-debug-toolbar = "==1.6"
+django-compressor = "==1.6"
 
 
 [dev-packages]
@@ -37,6 +41,7 @@ lxml = "*"
 html5lib = "*"
 django-celery-monitor = "*"
 dj-database-url = "*"
+django-haystack = "*"
 
 
 

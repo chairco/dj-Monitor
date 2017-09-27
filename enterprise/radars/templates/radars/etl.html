@@ -5,93 +5,93 @@
 
 
 {% block content %}
-<ul class="breadcrumb">
-    {% block bar %}{{ block.super }}
-        <li class="active">ETL list</li>
-    {% endblock bar %}
-</ul>
+    <ul class="breadcrumb">
+        {% block bar %}{{ block.super }}
+            <li class="active">ETL list</li>
+        {% endblock bar %}
+    </ul>
 
-<h2>815 ETL</h2>
-<hr>
+    <h2>815 ETL</h2>
+    <hr>
 
-<h2>佇列任務</h2>
-{% if queue_orders %}
+    <h2>佇列任務</h2>
+    {% if queue_orders %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Task ID</th>
+                <th>Task NAME</th>
+                <th>Task Type</th>
+                <th>Task Params</th>
+                <th>Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in queue_orders %}
+                <tr>
+                    <td>{{ task.task_id }}</td>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.func }}</td>
+                    <td>{{ task.task.kwargs }}</td>
+                    <td>{{ task.task.started|naturaltime }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>無任何任務執行</p>
+    {% endif %}
+    <hr>
+
+
+    <h2>歷史紀錄</h2>
     <table class="table table-striped">
         <thead>
         <tr>
             <th>Task ID</th>
-            <th>Task NAME</th>
-            <th>Task Type</th>
-            <th>Task Params</th>
-            <th>Created</th>
+            <th>Group</th>
+            <th>Time taken</th>
+            <th>Equipment</th>
+            <th>Success</th>
+            <th>Start</th>
+            <th>Complete on</th>
         </tr>
         </thead>
         <tbody>
-        {% for task in queue_orders %}
+        {% for task in complete_orders %}
             <tr>
-                <td>{{ task.task_id }}</td>
-                <td>{{ task.name }}</td>
-                <td>{{ task.func }}</td>
-                <td>{{ task.task.kwargs }}</td>
-                <td>{{ task.task.started|naturaltime }}</td>
+                <td>
+                {% if task.success %}
+                    <a href="{% url 'view_task' id=task.id %}">{{ task.id }}</a>
+                {% else %}
+                    {{ task.id }}
+                {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'view_group' id=task.id %}">{{ task.group }}</td></a>
+                </td>
+                <td>{{ task.time_taken }}</td>
+                <td>{{ task.args.0 }}</td>
+                <td>{{ task.success }}</td>
+                <td>{{ task.started }}</td>
+                <td>{{ task.stopped|naturaltime }}</td>
             </tr>
         {% endfor %}
         </tbody>
-    </table>
-{% else %}
-    <p>無任何任務執行</p>
-{% endif %}
-<hr>
+        <div class="pagination">
+            <span class="step-links">
+                {% if complete_orders.has_previous %}
+                    <a href="?page={{ complete_orders.previous_page_number }}">前一頁</a>
+                {% endif %}
 
+                <span class="current">
+                    Page {{ complete_orders.number }} of {{ complete_orders.paginator.num_pages }}.
+                </span>
 
-<h2>歷史紀錄</h2>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Task ID</th>
-        <th>Group</th>
-        <th>Time taken</th>
-        <th>Equipment</th>
-        <th>Success</th>
-        <th>Start</th>
-        <th>Complete on</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for task in complete_orders %}
-        <tr>
-            <td>
-            {% if task.success %}
-                <a href="{% url 'view_task' id=task.id %}">{{ task.id }}</a>
-            {% else %}
-                {{ task.id }}
-            {% endif %}
-            </td>
-            <td>
-                <a href="{% url 'view_group' id=task.id %}">{{ task.group }}</td></a>
-            </td>
-            <td>{{ task.time_taken }}</td>
-            <td>{{ task.args.0 }}</td>
-            <td>{{ task.success }}</td>
-            <td>{{ task.started }}</td>
-            <td>{{ task.stopped|naturaltime }}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-    <div class="pagination">
-        <span class="step-links">
-            {% if complete_orders.has_previous %}
-                <a href="?page={{ complete_orders.previous_page_number }}">前一頁</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ complete_orders.number }} of {{ complete_orders.paginator.num_pages }}.
+                {% if complete_orders.has_next %}
+                    <a href="?page={{ complete_orders.next_page_number }}">下一頁</a>
+                {% endif %}
             </span>
-
-            {% if complete_orders.has_next %}
-                <a href="?page={{ complete_orders.next_page_number }}">下一頁</a>
-            {% endif %}
-        </span>
-    </div>
-</table>
+        </div>
+    </table>
 {% endblock %}

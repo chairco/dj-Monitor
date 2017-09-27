@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6eafd8462793e401b8d3fb1af214fb3ff30c380bfdfeb8bd84c034f54d513374"
+            "sha256": "60aa1829b35183496b111b13d84471a9e11db91201a72c894b6a200410ee4452"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -93,9 +93,17 @@
         },
         "django": {
             "hashes": [
-                "sha256:a8a695977109830cd3f1bef65bce43d78d361751a304c5cf215d876fbdcf6416"
+                "sha256:ffdc7e938391ae3c2ee8ff82e0b4444e4e6bb15c99d00770285233d42aaf33d6",
+                "sha256:d4ef83bd326573c00972cb9429beb396d210341a636e4b816fc9b3f505c498bb"
             ],
-            "version": "==2.0a1"
+            "version": "==1.10.8"
+        },
+        "django-appconf": {
+            "hashes": [
+                "sha256:ddab987d14b26731352c01ee69c090a4ebfc9141ed223bef039d79587f22acd9",
+                "sha256:6a4d9aea683b4c224d97ab8ee11ad2d29a37072c0c6c509896dd9857466fb261"
+            ],
+            "version": "==1.0.2"
         },
         "django-celery-monitor": {
             "hashes": [
@@ -104,11 +112,25 @@
             ],
             "version": "==1.1.2"
         },
+        "django-compressor": {
+            "hashes": [
+                "sha256:d83a3a23613333f1b715d1276b540185bc1fcb6975d84edbffc597f9238d6659",
+                "sha256:33926c7754821baf2d68f7c972804c584b94c51db7e2e12f057dc68147619e4e"
+            ],
+            "version": "==1.6"
+        },
         "django-crontab": {
             "hashes": [
                 "sha256:1201810a212460aaaa48eb6a766738740daf42c1a4f6aafecfb1525036929236"
             ],
             "version": "==0.7.1"
+        },
+        "django-debug-toolbar": {
+            "hashes": [
+                "sha256:62f95c09c0faa4b2deac7edba69a84d0d8ad794e79ce24d86c7cd004c91053d8",
+                "sha256:4eddb6fa791c4bfc6aa49e4c073663cd3719fe1c8609501aedf25b8586563e7a"
+            ],
+            "version": "==1.6"
         },
         "django-environ": {
             "hashes": [
@@ -116,6 +138,12 @@
                 "sha256:f7bce5af8a4232f93a9d9e68f0afa6e276c57d8144c17bf330ebda8cc57f2cca"
             ],
             "version": "==0.4.1"
+        },
+        "django-haystack": {
+            "hashes": [
+                "sha256:37260cc1568edae8e2e07ba6f0d07cce4f308240cd9bc4d1cc7bd9f12737cbda"
+            ],
+            "version": "==2.7.dev0"
         },
         "django-picklefield": {
             "hashes": [
@@ -130,6 +158,13 @@
                 "sha256:170be7d633f1023d8f80540ecd2408c9d9cc011d3eaee6ecdcd2ba2a3bc834b3"
             ],
             "version": "==0.8.0"
+        },
+        "elasticsearch": {
+            "hashes": [
+                "sha256:bb8f9a365ba6650d599428538c8aed42033264661d8f7d353da59d5892305f72",
+                "sha256:fead47ebfcaabd1c53dbfc21403eb99ac207eef76de8002fe11a1c8ec9589ce2"
+            ],
+            "version": "==2.4.1"
         },
         "environ": {
             "hashes": [
@@ -370,6 +405,13 @@
             ],
             "version": "==1.11.0"
         },
+        "sqlparse": {
+            "hashes": [
+                "sha256:d9cf190f51cbb26da0412247dfe4fb5f4098edb73db84e02f9fc21fdca31fed4",
+                "sha256:ce028444cfab83be538752a2ffdb56bc417b7784ff35bb9a3062413717807dec"
+            ],
+            "version": "==0.2.4"
+        },
         "urllib3": {
             "hashes": [
                 "sha256:06330f386d6e4b195fbfc736b297f58c5a892e4440e54d294d7004e3a9bbea1b",
@@ -442,12 +484,24 @@
             ],
             "version": "==0.4.2"
         },
+        "django": {
+            "hashes": [
+                "sha256:a8a695977109830cd3f1bef65bce43d78d361751a304c5cf215d876fbdcf6416"
+            ],
+            "version": "==2.0a1"
+        },
         "django-celery-monitor": {
             "hashes": [
                 "sha256:8671f83564886479435b2a0db81571c0806cc6999e0b2881658c14065a6cf9ce",
                 "sha256:a044fac92828e609c37675a12d6c0ef82bd519823ca1ef41ea48e246092e27b2"
             ],
             "version": "==1.1.2"
+        },
+        "django-haystack": {
+            "hashes": [
+                "sha256:37260cc1568edae8e2e07ba6f0d07cce4f308240cd9bc4d1cc7bd9f12737cbda"
+            ],
+            "version": "==2.7.dev0"
         },
         "html5lib": {
             "hashes": [

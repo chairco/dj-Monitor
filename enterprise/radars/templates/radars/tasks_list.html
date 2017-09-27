@@ -1,0 +1,47 @@
+{% extends 'radars/_base.html' %}
+{% load humanize %}
+
+{% block title %}815{% endblock %}
+
+{% block content %}
+  <ul class="breadcrumb">
+      {% block bar %}{{ block.super }}
+          <li class="active">All</li>
+      {% endblock bar %}
+  </ul>
+
+  <h2>ALL Tasks</h2>
+  {% if object_list %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>Group</th>
+            <th>Time Taken</th>
+            <th>Equipment</th>
+            <th>Success</th>
+            <th>Start</th>
+            <th>Complete on</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+              <td><a href="{% url 'task_detail' pk=object.id %}">{{ object.id }}</a></td>
+              <td>{{ object.group }}</td>
+              <td>{{ object.time_taken }}</td>
+              <td>{{ object.args.0 }}</td>
+              <td>{{ object.success }}</td>
+              <td>{{ object.started }}</td>
+              <th>{{ object.stopped|naturaltime }}</th>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+
+    <h4> Empty Data </h4>
+  {% endif %}
+
+  <hr>
+{% endblock %}

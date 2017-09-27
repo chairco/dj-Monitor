@@ -27,6 +27,7 @@ urlpatterns = i18n_patterns(
 
     # Add top-level URL patterns here.
     url(r'^$', index, name='index'),
+    url(r'^search/', include('haystack.urls')),
     url(r'^radars/', include('radars.urls')),
 
 )
@@ -36,4 +37,12 @@ urlpatterns += [
     url(r'^admin/', include(admin.site.urls)),
 ]
 
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# Debug Toolbar's URL.
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
+

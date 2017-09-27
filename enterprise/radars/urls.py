@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^rate/$', views.exchangerate, name='rate'),
     url(r'^task/(?P<id>\w+)$', views.view_task, name='view_task'),
     url(r'^group/(?P<id>\w+)$', views.view_group, name='view_group'),
+    url(r'^t/$', views.TaskList.as_view(), name='task_list'),
+    url(r'^t/(?P<pk>\w+)$', views.TaskDetail.as_view(), name='task_detail'),
 ]

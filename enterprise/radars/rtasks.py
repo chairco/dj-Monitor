@@ -28,7 +28,7 @@ def cd(newdir):
 
 
 def run_command_under_r_root(cmd, catched=True):
-    with cd(newdir='/Users/chairco/OneDrive/SourceCode/django/Qmonitor/enterprise/radars'):
+    with cd(newdir=os.path.join(settings.BASE_DIR, 'radars')):
         if catched:
             process = sp.run(cmd, stdout=sp.PIPE, stderr=sp.PIPE)
         else:
@@ -56,9 +56,5 @@ def etl_task():
     group_id = async_chain([('radars.rtasks.r_etl', ('cvdu01', 'ETL')),
                             ('radars.rtasks.r_etl', ('cvdu02', 'ETL'))])#, group='ETL')
     return result_group(group_id, count=2)
-
-
-
-
 
 

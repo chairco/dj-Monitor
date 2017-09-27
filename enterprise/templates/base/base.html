@@ -32,12 +32,14 @@
             <li class="dropdown">
               <a href="#" class="{% if active == 'about' %}active{% endif %} dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks</a>
               <ul class="dropdown-menu">
-                <li><a href="{% url 'rate' %}">TW exchange rate</a></li>
-                <li><a href="{% url 'home' %}">fruit shop</a></li>
+                <li><a href="{% url 'task_list' %}">ALL Task</a></li>
                 <li><a href="{% url 'etl' %}">ETL List</a></li>
+                {#<li><a href="{% url 'rate' %}">TW exchange rate</a></li>#}
+                {#<li><a href="{% url 'home' %}">fruit shop</a></li>#}
               </ul>
             </li>
-          </ul>
+            <li><a href="/search">Search</a></li>
+        </ul>
       </div>
     </div>
   </nav>

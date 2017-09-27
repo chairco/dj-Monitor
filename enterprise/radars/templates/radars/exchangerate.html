@@ -5,80 +5,80 @@
 
 
 {% block content %}
-<ul class="breadcrumb">
-    {% block bar %}{{ block.super }}
-        <li class="active">RateList</li>
-    {% endblock bar %}
-</ul>
+    <ul class="breadcrumb">
+        {% block bar %}{{ block.super }}
+            <li class="active">RateList</li>
+        {% endblock bar %}
+    </ul>
 
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-{% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
 
-<h2>Get exchangerate</h2>
-<form class="form-inline" action="{% url 'rate' %}" method="post">
-    <div class="form-group">
-        <label for="url">網址:</label>
-        <select class="form-control" name="url">
-            <option>http://rate.bot.com.tw/xrt?Lang=zh-TW</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-default">送出任務</button>
-    {% csrf_token %}
-</form>
-<hr>
+    <h2>Get exchangerate</h2>
+    <form class="form-inline" action="{% url 'rate' %}" method="post">
+        <div class="form-group">
+            <label for="url">網址:</label>
+            <select class="form-control" name="url">
+                <option>http://rate.bot.com.tw/xrt?Lang=zh-TW</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-default">送出任務</button>
+        {% csrf_token %}
+    </form>
+    <hr>
 
-<h2>任務佇列</h2>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Task ID</th>
-        <th>Task NAME</th>
-        <th>Task Type</th>
-        <th>Task Params</th>
-        <th>Created</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for task in queue_orders %}
+    <h2>任務佇列</h2>
+    <table class="table table-striped">
+        <thead>
         <tr>
-            <td>{{ task.task_id }}</td>
-            <td>{{ task.name }}</td>
-            <td>{{ task.func }}</td>
-            <td>{{ task.task.kwargs }}</td>
-            <td>{{ task.task.started|naturaltime }}</td>
+            <th>Task ID</th>
+            <th>Task NAME</th>
+            <th>Task Type</th>
+            <th>Task Params</th>
+            <th>Created</th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for task in queue_orders %}
+            <tr>
+                <td>{{ task.task_id }}</td>
+                <td>{{ task.name }}</td>
+                <td>{{ task.func }}</td>
+                <td>{{ task.task.kwargs }}</td>
+                <td>{{ task.task.started|naturaltime }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<h2>歷史紀錄</h2>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Task ID</th>
-        <th>Task Name</th>
-        <th>Time taken</th>
-        <th>Complete on</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for task in complete_orders %}
+    <h2>歷史紀錄</h2>
+    <table class="table table-striped">
+        <thead>
         <tr>
-            <td>
-            {% if task.success %}
-                <a href="{% url 'view_task' id=task.id %}">{{ task.id }}</a>
-            {% else %}
-                {{ task.id }}
-            {% endif %}
-            </td>
-            <td>{{ task.name }}</td>
-            <td>{{ task.time_taken }}</td>
-            <td>{{ task.stopped|naturaltime }}</td>
+            <th>Task ID</th>
+            <th>Task Name</th>
+            <th>Time taken</th>
+            <th>Complete on</th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for task in complete_orders %}
+            <tr>
+                <td>
+                {% if task.success %}
+                    <a href="{% url 'view_task' id=task.id %}">{{ task.id }}</a>
+                {% else %}
+                    {{ task.id }}
+                {% endif %}
+                </td>
+                <td>{{ task.name }}</td>
+                <td>{{ task.time_taken }}</td>
+                <td>{{ task.stopped|naturaltime }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

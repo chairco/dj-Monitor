@@ -14,7 +14,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -46,10 +45,10 @@ def view_task(request, id):
     result = task.result
     if task.func == 'radars.tasks.order_fruit':
         return render(request, 'radars/task_detail.html', {
-           'result': result,
+            'result': result,
         })
     if task.func == 'radars.tasks.get_exchangerate':
-        if type(result) is type(OrderedDict()): 
+        if type(result) is type(OrderedDict()):
             return render(request, 'radars/task_detail.html', {
                 'ret': result['ret'],
                 'status': result['status'],
@@ -80,10 +79,54 @@ def view_group(request, id):
     groups = result_group(task.group)
     etl_groups = {}
     for idx, value in enumerate(reversed(groups)):
-        etl_groups.setdefault(idx+1, decode_cmd_out(value['ETL']))
+        etl_groups.setdefault(idx + 1, decode_cmd_out(value['ETL']))
 
     return render(request, 'radars/etl_group.html', {
         'etl_groups': etl_groups,
+    })
+
+
+class TaskList(ListView):
+    """Displays the lists of a task"""
+    model = Task
+    template_name = 'radars/tasks_list.html'
+
+
+class TaskDetail(DetailView):
+    """Displays the details of a task"""
+    model = Task
+    template_name = 'radars/tasks_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TaskDetail, self).get_context_data(**kwargs)
+        context['object'].result = decode_cmd_out(
+            context['object'].result['ETL'])
+        return context
+
+
+def etl(request):
+    # Select orders in queue
+    queue_orders = OrmQ.objects.all().order_by('lock')
+    # Select finished orders
+    complete_orders = Task.objects.all().filter(
+        func__exact='radars.rtasks.r_etl',
+    )
+
+    paginator = Paginator(complete_orders, 5)
+    page = request.GET.get('page')
+
+    try:
+        complete_orders = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        complete_orders = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        complete_orders = paginator.page(paginator.num_pages)
+
+    return render(request, 'radars/etl.html', {
+        'queue_orders': queue_orders,
+        'complete_orders': complete_orders
     })
 
 
@@ -127,7 +170,7 @@ def exchangerate(request):
             url = request.POST.get('url', '')
         except ValueError:
             return HttpResponseBadRequest('Invalid url request!')
-        
+
         # Create async task
         task_id = async(
             'radars.tasks.get_exchangerate',
@@ -150,31 +193,3 @@ def exchangerate(request):
         'queue_orders': queue_orders,
         'complete_orders': complete_orders
     })
-
-
-def etl(request):
-    # Select orders in queue
-    queue_orders = OrmQ.objects.all().order_by('lock')
-    # Select finished orders
-    complete_orders = Task.objects.all().filter(
-        func__exact='radars.rtasks.r_etl',
-    )
-    
-    paginator = Paginator(complete_orders, 5)
-    page = request.GET.get('page')
-    
-    try:
-        complete_orders = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        complete_orders = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        complete_orders = paginator.page(paginator.num_pages)
-    
-    return render(request, 'radars/etl.html', {
-        'queue_orders': queue_orders,
-        'complete_orders': complete_orders
-    })
-
-
