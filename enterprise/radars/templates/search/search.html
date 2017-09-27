@@ -36,6 +36,7 @@
                         <th>task name</th>
                         <th>result</th>
                         <th>group</th>
+                        <th>success</th>
                         <th>args</th>
                         <th>started</th>
                         <th>stopped</th>
@@ -43,11 +44,36 @@
                 <tbody>
                     {% for result in page.object_list %}
                         <tr>
-                            <td>{{ result.id }}</td>
+                            <td>{{ result.object.id }}</td>
                             <td>{{ result.name }}</td>
-                            <td>{{ result.result }}</td>
-                            <td>{{ result.group}}</td>
-                            <td>{{ result.args }}</td>
+                            <td>
+                              {% if result.object.result|length > 1 %}
+                                {% for tasks in result.object.result%}
+                                    {% for k, v in tasks.items %}
+                                      <p>
+                                        <b>GROUP::</b> {{ k }}</br>
+                                        <b>ARGS::</b> {{ v.args }}</br>
+                                        <b>REURNCODE::</b> {{ v.returncode }}</br>
+                                        <b>STDOUT::</b> {{ v.stdout }}</br>
+                                        <b>STDERR::</b> {{ v.stderr }}
+                                      <p>
+                                    {% endfor %}
+                                {% endfor %}
+                              {% else %}
+                                {% for k, v in result.object.result.items %}
+                                    <p>
+                                        <b>GROUP::</b> {{ k }}</br>
+                                        <b>ARGS::</b> {{ v.args }}</br>
+                                        <b>REURNCODE::</b> {{ v.returncode }}</br>
+                                        <b>STDOUT::</b> {{ v.stdout }}</br>
+                                        <b>STDERR::</b> {{ v.stderr }}
+                                    <p>
+                                {% endfor %}
+                              {% endif %}
+                            </td>
+                            <td>{{ result.object.group}}</td>
+                            <td>{{ result.success }}</td>
+                            <td>{{ result.object.args.0 }}</td>  
                             <td>{{ result.started }}</td>
                             <td>{{ result.stopped }}</td>
                         </tr>
