@@ -36,7 +36,7 @@ def run_command_under_r_root(cmd, catched=True):
         return process
 
 
-def r_etl(equipment, process='ETL', r='etl.R'):
+def r_etl(equipment, process, r='Analysis_Main.R', project='815'):
     """
     :type equipment: str, ex:cvdu01, cvdu02
     :type process: str, ex:ETL, EHM
@@ -44,17 +44,20 @@ def r_etl(equipment, process='ETL', r='etl.R'):
     """
     etl_proesses = OrderedDict()
     commands = OrderedDict([
-        (process, [RScript, r, process, equipment]),
+        (project, [RScript, r, process, equipment]),
     ])
     for cmd_name, cmd in commands.items():
         etl_proesses[cmd_name] = run_command_under_r_root(cmd)
-    time.sleep(3)
     return etl_proesses
 
 
 def etl_task():
+    """
+    :rtype: QuerySet()
+    """
     group_id = async_chain([('radars.rtasks.r_etl', ('cvdu01', 'ETL')),
-                            ('radars.rtasks.r_etl', ('cvdu02', 'ETL'))])#, group='ETL')
-    return result_group(group_id, count=2)
-
-
+                            ('radars.rtasks.r_etl', ('cvdu01', 'EHM')),
+                            ('radars.rtasks.r_etl', ('cvdu01', 'AVM')),
+                            ('radars.rtasks.r_etl', ('cvdu01', 'XSPC')),
+                            ('radars.rtasks.r_etl', ('cvdu01', 'AVM_Batch')), ])  # , group='ETL')
+    return result_group(group_id, count=5)

@@ -1,11 +1,10 @@
 {# search.html #}
 {% extends 'radars/_base.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags replace %}
 
 {% block title %}Search{% endblock %}
 
 {% block content %}
-
     <ul class="breadcrumb">
         {% block bar %}{{ block.super }}
             <li class="active">Search</li>
@@ -27,55 +26,60 @@
 
         {% if query %}
             <h3>Results</h3>
-            
             <div>
             <table class="table table-striped table-bordered" cellspacing="0" id='result_table'>
                 <thead>
                     <tr>
-                        <th>task id</th>
-                        <th>task name</th>
-                        <th>result</th>
-                        <th>group</th>
-                        <th>success</th>
-                        <th>args</th>
-                        <th>started</th>
-                        <th>stopped</th>
+                        <th>Task ID / Group / Name</th>
+                        <th>Log</th>
+                        <th>Success</th>
+                        <th>Args</th>
+                        <th>Time</th>
                 </thead>
                 <tbody>
                     {% for result in page.object_list %}
                         <tr>
-                            <td>{{ result.object.id }}</td>
-                            <td>{{ result.name }}</td>
+                            <td>
+                                <p><b>ID:: </b>{{ result.object.id }}</p>
+                                <p><b>Group:: </b>{{ result.object.group}}</p>
+                                <p><b>Name:: </b>{{ result.name }}</p>
+                            </td>
                             <td>
                               {% if result.object.result|length > 1 %}
                                 {% for tasks in result.object.result%}
                                     {% for k, v in tasks.items %}
-                                      <p>
-                                        <b>GROUP::</b> {{ k }}</br>
-                                        <b>ARGS::</b> {{ v.args }}</br>
-                                        <b>REURNCODE::</b> {{ v.returncode }}</br>
-                                        <b>STDOUT::</b> {{ v.stdout }}</br>
-                                        <b>STDERR::</b> {{ v.stderr }}
-                                      <p>
+                                    <p><b>GROUP::</b>{{ k }}</p>
+                                    <p><b>ARGS::</b>{{ v.args }}</p>
+                                    <p><b>REURNCODE::</b>{{ v.returncode }}</p>
+                                    <b>STDOUT::</b>{{ v.stdout|replace|safe }}
+                                    <b>STDERR::</b>{{ v.stderr|linebreaks }}
                                     {% endfor %}
                                 {% endfor %}
                               {% else %}
                                 {% for k, v in result.object.result.items %}
-                                    <p>
-                                        <b>GROUP::</b> {{ k }}</br>
-                                        <b>ARGS::</b> {{ v.args }}</br>
-                                        <b>REURNCODE::</b> {{ v.returncode }}</br>
-                                        <b>STDOUT::</b> {{ v.stdout }}</br>
-                                        <b>STDERR::</b> {{ v.stderr }}
-                                    <p>
+                                    <p><b>GROUP:: </b>{{ k }}</p>
+                                    <p><b>ARGS:: </b>{{ v.args }}</p>
+                                    <p><b>REURNCODE:: </b>{{ v.returncode }}</p>
+                                    <b>STDOUT:: </b>{{ v.stdout|replace|safe }}
+                                    <b>STDERR:: </b>{{ v.stderr|linebreaks }}
                                 {% endfor %}
                               {% endif %}
                             </td>
-                            <td>{{ result.object.group}}</td>
-                            <td>{{ result.success }}</td>
-                            <td>{{ result.object.args.0 }}</td>  
-                            <td>{{ result.started }}</td>
-                            <td>{{ result.stopped }}</td>
+                            <td>
+                                {% if result.success == True %}
+                                    <b>OK</b>
+                                {% else %}
+                                    {{ result.success }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ result.object.args.0 }} / {{ result.object.args.1 }}
+                            </td>  
+                            <td>
+                                <p><b>Start:: </b> {{ result.started }}</p>
+                                <p><b>Stop:: </b> {{ result.stopped }}</p>
+                                <p><b>Take:: </b> {{ result.object.time_taken }}(s)</p>
+                            </td>
                         </tr>
                     {% empty %}
                         <tr>No results found.</tr>
@@ -95,13 +99,3 @@
         {% endif %}
     </form>
 {% endblock content %}
-
-{% block js %}
-    <script>
-    $(document).ready(function() {
-        $('#result_table').DataTable({
-            "searching": false
-        });
-    } );
-    </script>
-{% endblock js %}

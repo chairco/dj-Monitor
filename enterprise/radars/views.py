@@ -61,7 +61,7 @@ def view_task(request, id):
                 'result': result,
             })
     if task.func == 'radars.rtasks.r_etl':
-        etl = decode_cmd_out(result['ETL'])
+        etl = decode_cmd_out(result['815'])
         return render(request, 'radars/etl_detail.html', {
             'etl': etl,
         })
@@ -79,7 +79,7 @@ def view_group(request, id):
     groups = result_group(task.group)
     etl_groups = {}
     for idx, value in enumerate(reversed(groups)):
-        etl_groups.setdefault(idx + 1, decode_cmd_out(value['ETL']))
+        etl_groups.setdefault(idx + 1, decode_cmd_out(value['815']))
 
     return render(request, 'radars/etl_group.html', {
         'etl_groups': etl_groups,
@@ -100,7 +100,7 @@ class TaskDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(TaskDetail, self).get_context_data(**kwargs)
         context['object'].result = decode_cmd_out(
-            context['object'].result['ETL'])
+            context['object'].result['815'])
         return context
 
 
@@ -112,7 +112,7 @@ def etl(request):
         func__exact='radars.rtasks.r_etl',
     )
 
-    paginator = Paginator(complete_orders, 5)
+    paginator = Paginator(complete_orders, 10)
     page = request.GET.get('page')
 
     try:
