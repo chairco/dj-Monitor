@@ -1,12 +1,18 @@
 import os
 import subprocess as sp
 import time
+import logging
+import sys
 
 from collections import OrderedDict
 from contextlib import contextmanager
 
+import django
+
 from django_q.tasks import async, result, async_chain, result_group
 from django.conf import settings
+
+from query.equip import FDA
 
 
 RScript = settings.R_BIN
@@ -48,16 +54,57 @@ def r_etl(equipment, process, r='Analysis_Main.R', project='815'):
     ])
     for cmd_name, cmd in commands.items():
         etl_proesses[cmd_name] = run_command_under_r_root(cmd)
+    time.sleep(5)
     return etl_proesses
 
 
-def etl_task():
+def delete_duplicates(tasks):
     """
+    :type tasks: list()
+    :rtype = list()
+    """
+    ret = []
+    for task in tasks:
+        if task not in ret:
+            ret.append(task)
+    return ret
+
+
+def get_task(equipment):
+    """
+    :type equipment: str
+    :rtype: list()
+    """
+    tasks = ['ETL'] # should be exist ETL
+    task_mapping = {
+        'FDC_Import': 'ETL',
+        'FDC_Indicator': 'ETL',
+        'FDC_Sync': 'ETL',
+        'Mea_Import': 'ETL',
+        'EHM_Process': 'EHM',
+        'AVM_Process': 'AVM',
+        'XSPC_Process': 'XSPC',
+        'AVM_Product': 'AVM_Bash',
+        'SPC_Product': 'SPC'
+    }
+    fda = FDA()
+    fda.equipment = equipment
+    rows = [row[0] for row in fda.get_lastendtime()]
+    for k, v in task_mapping.items():
+        if k in rows:
+            tasks.append(v)
+            rows.remove(k)
+    tasks = delete_duplicates(tasks=tasks)
+    return tasks
+
+
+def etl_task(equipment):
+    """
+    :type equipment: str
     :rtype: QuerySet()
     """
-    group_id = async_chain([('radars.rtasks.r_etl', ('cvdu01', 'ETL')),
-                            ('radars.rtasks.r_etl', ('cvdu01', 'EHM')),
-                            ('radars.rtasks.r_etl', ('cvdu01', 'AVM')),
-                            ('radars.rtasks.r_etl', ('cvdu01', 'XSPC')),
-                            ('radars.rtasks.r_etl', ('cvdu01', 'AVM_Batch')), ])  # , group='ETL')
-    return result_group(group_id, count=5)
+    tasks = get_task(equipment=equipment)
+    chains = [('radars.rtasks.r_etl', (equipment, task)) for task in tasks]
+    group_id = async_chain(chains)
+    return result_group(group_id, count=len(tasks))
+

@@ -12,7 +12,7 @@ django-environ = "==0.4.1"
 django-picklefield = "==0.3.2"
 future = "==0.16.0"
 py = "==1.4.31"
-pytest = "==3.0.5"
+pytest = "*"
 pytest-django = "==3.1.2"
 python-dateutil = "==2.6.0"
 redis = "==2.10.5"
@@ -32,6 +32,7 @@ django-haystack = "*"
 elasticsearch = ">=2.0.0,<3.0.0"
 django-debug-toolbar = "==1.6"
 django-compressor = "==1.6"
+python-dotenv = "*"
 
 
 [dev-packages]

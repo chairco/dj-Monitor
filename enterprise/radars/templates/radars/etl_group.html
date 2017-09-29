@@ -14,7 +14,7 @@
 
 
     {% for key, value in etl_groups.items %}
-        <h2> 第 {{ key }} 筆</h2>
+        <h2> 執行 <code>{{ value.args.2 }}</code>, 第 {{ key }} 筆</h2>
         <h3>stdout</h3>
         <p>
            回傳值: <code>{{ value.returncode }}</code> 

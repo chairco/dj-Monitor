@@ -4,5 +4,3 @@
 {{ object.args }}
 {{ object.group }}
 {{ object.success }}
-{{ object.started }}
-{{ object.stopped }}
