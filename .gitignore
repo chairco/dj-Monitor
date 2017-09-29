@@ -37,6 +37,7 @@ docs/_build
 
 # Environment variables
 local.env
+.env
 
 # Django stuff:
 *.pot
