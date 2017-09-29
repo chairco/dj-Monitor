@@ -54,7 +54,6 @@ def r_etl(equipment, process, r='Analysis_Main.R', project='815'):
     ])
     for cmd_name, cmd in commands.items():
         etl_proesses[cmd_name] = run_command_under_r_root(cmd)
-    time.sleep(5)
     return etl_proesses
 
 
@@ -84,12 +83,12 @@ def get_task(equipment):
         'EHM_Process': 'EHM',
         'AVM_Process': 'AVM',
         'XSPC_Process': 'XSPC',
-        'AVM_Product': 'AVM_Bash',
+        'AVM_Product': 'AVM_Batch',
         'SPC_Product': 'SPC'
     }
     fda = FDA()
     fda.equipment = equipment
-    rows = [row[0] for row in fda.get_lastendtime()]
+    rows = [row[0] for row in fda.get_lastendtime() if row[1] == True]
     for k, v in task_mapping.items():
         if k in rows:
             tasks.append(v)

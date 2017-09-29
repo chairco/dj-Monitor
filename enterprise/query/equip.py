@@ -19,7 +19,7 @@ class FDA:
         cursor = db.get_cursor()
         cursor.execute(
             """
-            SELECT "apname" FROM "lastendtime"
+            SELECT "apname", "enabled" FROM "lastendtime"
             WHERE TOOLID = %(equipment)s
             """,
             {'equipment': self.equipment.upper()},

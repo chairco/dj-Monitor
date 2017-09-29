@@ -48,6 +48,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>#</th>
             <th>Task ID</th>
             <th>Group</th>
             <th>Time taken</th>
@@ -60,6 +61,7 @@
         <tbody>
         {% for task in complete_orders %}
             <tr>
+                <td>{{ forloop.counter }}</td>
                 <td>
                 {% if task.success %}
                     <a href="{% url 'view_task' id=task.id %}">{{ task.id }}</a>
