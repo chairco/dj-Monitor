@@ -255,3 +255,5 @@ HAYSTACK_CONNECTIONS = {
 
 # Enterprise call external script.  
 R_BIN = env.str('R_BIN', default='RScript')
+R_PATH = os.path.join(BASE_DIR, 'rscripts')
+

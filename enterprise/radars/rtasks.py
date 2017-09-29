@@ -7,8 +7,6 @@ import sys
 from collections import OrderedDict
 from contextlib import contextmanager
 
-import django
-
 from django_q.tasks import async, result, async_chain, result_group
 from django.conf import settings
 
@@ -16,6 +14,7 @@ from query.equip import FDA
 
 
 RScript = settings.R_BIN
+R_PATH = settings.R_PATH
 
 
 @contextmanager
@@ -34,7 +33,7 @@ def cd(newdir):
 
 
 def run_command_under_r_root(cmd, catched=True):
-    with cd(newdir=os.path.join(settings.BASE_DIR, 'radars')):
+    with cd(newdir=R_PATH):
         if catched:
             process = sp.run(cmd, stdout=sp.PIPE, stderr=sp.PIPE)
         else:
