@@ -43,23 +43,6 @@ def decode_cmd_out(completed_cmd):
 def view_task(request, id):
     task = get_object_or_404(Task, id=id)
     result = task.result
-    if task.func == 'radars.tasks.order_fruit':
-        return render(request, 'radars/task_detail.html', {
-            'result': result,
-        })
-    if task.func == 'radars.tasks.get_exchangerate':
-        if type(result) is type(OrderedDict()):
-            return render(request, 'radars/task_detail.html', {
-                'ret': result['ret'],
-                'status': result['status'],
-                'values': result['values'],
-                'version': result['version'],
-                'result': result['get_exchangerate_job'],
-            })
-        else:
-            return render(request, 'radars/task_detail.html', {
-                'result': result,
-            })
     if task.func == 'radars.rtasks.r_etl':
         etl = decode_cmd_out(result['815'])
         return render(request, 'radars/etl_detail.html', {
@@ -80,7 +63,6 @@ def view_group(request, id):
     etl_groups = {}
     for idx, value in enumerate(reversed(groups)):
         etl_groups.setdefault(idx + 1, decode_cmd_out(value['815']))
-
     return render(request, 'radars/etl_group.html', {
         'etl_groups': etl_groups,
     })
