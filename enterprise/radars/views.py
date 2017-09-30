@@ -86,24 +86,6 @@ def view_group(request, id):
     })
 
 
-class TaskList(ListView):
-    """Displays the lists of a task"""
-    model = Task
-    template_name = 'radars/tasks_list.html'
-
-
-class TaskDetail(DetailView):
-    """Displays the details of a task"""
-    model = Task
-    template_name = 'radars/tasks_detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(TaskDetail, self).get_context_data(**kwargs)
-        context['object'].result = decode_cmd_out(
-            context['object'].result['815'])
-        return context
-
-
 def etl(request):
     # Select orders in queue
     queue_orders = OrmQ.objects.all().order_by('lock')
@@ -130,66 +112,19 @@ def etl(request):
     })
 
 
-def home(request):
-    if request.method == 'POST':
-        # Parse the form params
-        try:
-            fruit = request.POST.get('fruit_type', '')
-            num_fruit = int(request.POST.get('num_fruit', '1'))
-        except ValueError:
-            return HttpResponseBadRequest('Invalid fruit request!')
-        # Create async task
-        task_id = async(
-            'radars.tasks.order_fruit',
-            fruit=fruit, num_fruit=num_fruit
-        )
-        messages.info(
-            request,
-            'You ordered {fruit:s} x {num_fruit:d} (task: {task})'
-            .format(fruit=fruit, num_fruit=num_fruit, task=humanize(task_id))
-        )
-
-    # Select orders in queue
-    queue_orders = OrmQ.objects.all().order_by('lock')
-
-    # Select finished orders
-    complete_orders = Task.objects.all().filter(
-        func__exact='radars.tasks.order_fruit',
-    )
-    return render(request, 'radars/home.html', {
-        'queue_orders': queue_orders,
-        'complete_orders': complete_orders
-    })
+class TaskList(ListView):
+    """Displays the lists of a task"""
+    model = Task
+    template_name = 'radars/tasks_list.html'
 
 
-def exchangerate(request):
-    if request.method == 'POST':
-        # Parse the form params
-        # Create async task
-        try:
-            url = request.POST.get('url', '')
-        except ValueError:
-            return HttpResponseBadRequest('Invalid url request!')
+class TaskDetail(DetailView):
+    """Displays the details of a task"""
+    model = Task
+    template_name = 'radars/tasks_detail.html'
 
-        # Create async task
-        task_id = async(
-            'radars.tasks.get_exchangerate',
-            url=url
-        )
-        messages.info(
-            request,
-            'start get exchangerate (task: {task})'
-            .format(task=humanize(task_id))
-        )
-
-    # Select orders in queue
-    queue_orders = OrmQ.objects.all().order_by('lock')
-
-    # Select finished orders
-    complete_orders = Task.objects.all().filter(
-        func__exact='radars.tasks.get_exchangerate',
-    )
-    return render(request, 'radars/exchangerate.html', {
-        'queue_orders': queue_orders,
-        'complete_orders': complete_orders
-    })
+    def get_context_data(self, **kwargs):
+        context = super(TaskDetail, self).get_context_data(**kwargs)
+        context['object'].result = decode_cmd_out(
+            context['object'].result['815'])
+        return context
