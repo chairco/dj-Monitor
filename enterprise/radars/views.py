@@ -125,6 +125,9 @@ class TaskDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TaskDetail, self).get_context_data(**kwargs)
-        context['object'].result = decode_cmd_out(
-            context['object'].result['815'])
+        if isinstance(context['object'].result, OrderedDict):
+            context['object'].result = decode_cmd_out(
+                context['object'].result['815'])
+        else:
+            print(context['object'].result)
         return context
