@@ -5,13 +5,18 @@ import logging
 import os
 import uuid
 import lazy_logger
+import diffhtml
 
 from django.conf import settings
 from collections import OrderedDict
 from bs4 import BeautifulSoup
+from radars.models import Archive
+from markupsafe import Markup
 
 
 logger = logging.getLogger(__name__)
+
+cutoff = 0.6
 
 
 def log_time():
@@ -73,6 +78,40 @@ def get_version():
 
 def download_file():
     pass
+
+
+def get_content(url):
+    return requests.get(url)
+
+
+def hackmd_task(url):
+    """@bref open requests to parse information from hackmd.io
+    """
+    url = url.split('#')[0]  # get the url none anchor
+    r = requests.get(url)
+    if r.status_code != 200:
+        return '{} error, error code; {}'.format(url, r.status_code)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    content = soup.find(
+        'div', {'id': 'doc', 'class': 'container markdown-body'})
+    content = content.string
+
+    """@bref find keywords to generate notification
+    """
+    if len(Archive.objects.filter(url=url)):
+        compare = Archive.objects.get(url=url)
+        email_subject = url
+        result = Markup('<br>').join(
+            diffhtml.ndiff(compare.content.splitlines(),
+                           content.splitlines(), cutoff=cutoff)
+        )  # default cutoff = 0.6
+        diff_count = str(result).count('<ins>')
+        print('上一次內容差異數: {}'.format(diff_count))
+        return result
+    else:
+        print('第一次新增')
+        Archive.objects.create(url=url, content=content)
+    return 'OK, First'
 
 
 if __name__ == '__main__':
