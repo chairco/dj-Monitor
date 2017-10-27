@@ -27,6 +27,7 @@ future==0.16.0
 html5lib==1.0b10
 idna==2.6
 kombu==4.1.0
+git+https://github.com/Python-Logging-For-Human/lazy_logger
 lxml==4.0.0
 MarkupSafe==1.0
 numpy==1.13.3
