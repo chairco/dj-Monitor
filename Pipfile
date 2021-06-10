@@ -34,7 +34,7 @@ django-debug-toolbar = "==1.6"
 django-compressor = "==1.6"
 python-dotenv = "*"
 pip = "*"
-django = "==1.11.5"
+django = "==2.2.24"
 django-pickling = "*"
 diffhtml = {git = "https://github.com/uranusjr/diffhtml.git"}
 
